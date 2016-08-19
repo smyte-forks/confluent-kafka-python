@@ -510,15 +510,6 @@ PyObject *Message_new0 (const rd_kafka_message_t *rkm) {
  *
  *
  ****************************************************************************/
-typedef struct {
-	PyObject_HEAD
-	char *topic;
-	int   partition;
-	int64_t offset;
-	PyObject *error;
-} TopicPartition;
-
-
 static int TopicPartition_clear (TopicPartition *self) {
 	if (self->topic) {
 		free(self->topic);
@@ -600,8 +591,6 @@ static PyObject *TopicPartition_str0 (TopicPartition *self) {
 }
 
 
-static PyTypeObject TopicPartitionType;
-
 static PyObject *
 TopicPartition_richcompare (TopicPartition *self, PyObject *o2,
 			    int op) {
@@ -658,7 +647,7 @@ static long TopicPartition_hash (TopicPartition *self) {
 }
 
 
-static PyTypeObject TopicPartitionType = {
+PyTypeObject TopicPartitionType = {
 	PyVarObject_HEAD_INIT(NULL, 0)
 	"cimpl.TopicPartition",         /*tp_name*/
 	sizeof(TopicPartition),       /*tp_basicsize*/

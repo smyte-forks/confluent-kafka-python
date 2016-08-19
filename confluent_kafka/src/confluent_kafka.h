@@ -184,6 +184,26 @@ void CallState_crash (CallState *cs);
 /****************************************************************************
  *
  *
+ * TopicPartition
+ *
+ *
+ *
+ *
+ ****************************************************************************/
+typedef struct {
+	PyObject_HEAD
+	char *topic;
+	int   partition;
+	int64_t offset;
+	PyObject *error;
+} TopicPartition;
+
+extern PyTypeObject TopicPartitionType;
+
+
+/****************************************************************************
+ *
+ *
  * Common
  *
  *

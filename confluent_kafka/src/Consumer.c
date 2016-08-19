@@ -381,6 +381,54 @@ static PyObject *Consumer_position (Handle *self, PyObject *args,
 }
 
 
+static PyObject *Consumer_get_watermark_offsets (Handle *self, PyObject *args,
+						 PyObject *kwargs) {
+
+	TopicPartition *tp;
+	rd_kafka_resp_err_t err;
+	double tmout = -1.0f;
+	int cached = 0;
+	int64_t low = RD_KAFKA_OFFSET_INVALID, high = RD_KAFKA_OFFSET_INVALID;
+	static char *kws[] = { "partition", "timeout", "cached", NULL };
+	PyObject *rlist;
+
+	if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O|db", kws,
+					 (PyObject **)&tp, &tmout, &cached))
+		return NULL;
+
+
+	if (PyObject_Type((PyObject *)tp) != (PyObject *)&TopicPartitionType) {
+		PyErr_Format(PyExc_TypeError,
+			     "expected %s", TopicPartitionType.tp_name);
+		return NULL;
+	}
+
+	if (cached) {
+		err = rd_kafka_get_watermark_offsets(self->rk,
+						     tp->topic, tp->partition,
+						     &low, &high);
+	} else {
+		err = rd_kafka_query_watermark_offsets(self->rk,
+						       tp->topic, tp->partition,
+						       &low, &high,
+						       tmout >= 0 ? (int)(tmout * 1000.0f) : -1);
+	}
+
+	if (err) {
+		cfl_PyErr_Format(err,
+				 "Failed to get watermark offsets: %s",
+				 rd_kafka_err2str(err));
+		return NULL;
+	}
+
+	rlist = PyList_New(2);
+	PyList_SetItem(rlist, 0, PyLong_FromLongLong(low));
+	PyList_SetItem(rlist, 1, PyLong_FromLongLong(high));
+
+	return rlist;
+}
+
+
 
 static PyObject *Consumer_poll (Handle *self, PyObject *args,
 				    PyObject *kwargs) {
@@ -538,6 +586,22 @@ static PyMethodDef Consumer_methods[] = {
 	  "last consumed message + 1.\n"
 	  "  :returns: List of topic+partitions with offset and possibly error set.\n"
 	  "  :rtype: list(TopicPartition)\n"
+	  "  :raises: KafkaException\n"
+	  "\n"
+	},
+	{ "get_watermark_offsets", (PyCFunction)Consumer_get_watermark_offsets,
+	  METH_VARARGS|METH_KEYWORDS,
+	  ".. py:function:: get_watermark_offsets(partition, [timeout=None], [cached=False])\n"
+	  "\n"
+	  "  Retrieve low and high offsets for partition.\n"
+	  "\n"
+	  "  :param TopicPartition partition: Topic+partition to return offsets for."
+	  "  :param float timeout: Request timeout (when cached=False).\n"
+	  "  :param bool cached: Instead of querying the broker used cached information. "
+	  "The low offset is updated periodically (if statistics.interval.ms is set) while "
+	  "the high offset is updated on each message fetched from the broker for this partition."
+	  "  :returns: List of [low,high] on success or None on timeout.\n"
+	  "  :rtype: list(int)\n"
 	  "  :raises: KafkaException\n"
 	  "\n"
 	},
