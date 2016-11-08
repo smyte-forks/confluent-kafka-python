@@ -17,9 +17,9 @@
 #
 
 
-""" Test script for confluent_kafka module """
+""" Test script for confluent_kafka_smyte module """
 
-import confluent_kafka
+import confluent_kafka_smyte
 import re
 import time
 import uuid
@@ -83,7 +83,7 @@ def verify_producer():
             'default.topic.config':{'produce.offset.report': True}}
 
     # Create producer
-    p = confluent_kafka.Producer(**conf)
+    p = confluent_kafka_smyte.Producer(**conf)
     print('producer at %s' % p)
 
     # Produce some messages
@@ -118,7 +118,7 @@ def verify_producer_performance(with_dr_cb=True):
     conf = {'bootstrap.servers': bootstrap_servers,
             'error_cb': error_cb}
 
-    p = confluent_kafka.Producer(**conf)
+    p = confluent_kafka_smyte.Producer(**conf)
 
     topic = 'test'
     msgcnt = 1000000
@@ -218,7 +218,7 @@ def verify_consumer():
             }}
 
     # Create consumer
-    c = confluent_kafka.Consumer(**conf)
+    c = confluent_kafka_smyte.Consumer(**conf)
 
     # Subscribe to a list of topics
     c.subscribe(["test"])
@@ -235,7 +235,7 @@ def verify_consumer():
             raise Exception('Got timeout from poll() without a timeout set: %s' % msg)
 
         if msg.error():
-            if msg.error().code() == confluent_kafka.KafkaError._PARTITION_EOF:
+            if msg.error().code() == confluent_kafka_smyte.KafkaError._PARTITION_EOF:
                 print('Reached end of %s [%d] at offset %d' % \
                       (msg.topic(), msg.partition(), msg.offset()))
                 break
@@ -265,8 +265,8 @@ def verify_consumer():
 
 
     # Start a new client and get the committed offsets
-    c = confluent_kafka.Consumer(**conf)
-    offsets = c.committed(list(map(lambda p: confluent_kafka.TopicPartition("test", p), range(0,3))))
+    c = confluent_kafka_smyte.Consumer(**conf)
+    offsets = c.committed(list(map(lambda p: confluent_kafka_smyte.TopicPartition("test", p), range(0,3))))
     for tp in offsets:
         print(tp)
 
@@ -286,7 +286,7 @@ def verify_consumer_performance():
                 'auto.offset.reset': 'earliest'
             }}
 
-    c = confluent_kafka.Consumer(**conf)
+    c = confluent_kafka_smyte.Consumer(**conf)
 
     def my_on_assign (consumer, partitions):
         print('on_assign:', len(partitions), 'partitions:')
@@ -323,11 +323,11 @@ def verify_consumer_performance():
                             (msgcnt, max_msgcnt))
 
         if msg.error():
-            if msg.error().code() == confluent_kafka.KafkaError._PARTITION_EOF:
+            if msg.error().code() == confluent_kafka_smyte.KafkaError._PARTITION_EOF:
                 # Reached EOF for a partition, ignore.
                 continue
             else:
-                raise confluent_kafka.KafkaException(msg.error())
+                raise confluent_kafka_smyte.KafkaException(msg.error())
 
 
         bytecnt += len(msg)
@@ -360,8 +360,8 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         bootstrap_servers = sys.argv[1]
 
-    print('Using confluent_kafka module version %s (0x%x)' % confluent_kafka.version())
-    print('Using librdkafka version %s (0x%x)' % confluent_kafka.libversion())
+    print('Using confluent_kafka_smyte module version %s (0x%x)' % confluent_kafka_smyte.version())
+    print('Using librdkafka version %s (0x%x)' % confluent_kafka_smyte.libversion())
 
     print('=' * 30, 'Verifying Producer', '=' * 30)
     verify_producer()

@@ -6,10 +6,10 @@ Indices and tables
 
 * :ref:`genindex`
 
-:mod:`confluent_kafka` --- Confluent's Apache Kafka Python client
+:mod:`confluent_kafka_smyte` --- Confluent's Apache Kafka Python client
 *****************************************************************
 
-.. automodule:: confluent_kafka
+.. automodule:: confluent_kafka_smyte
    :synopsis: Confluent's Apache Kafka Python client.
    :members:
 
@@ -17,42 +17,42 @@ Indices and tables
 Consumer
 ********
 
-.. autoclass:: confluent_kafka.Consumer
+.. autoclass:: confluent_kafka_smyte.Consumer
    :members:
 
 ********
 Producer
 ********
 
-.. autoclass:: confluent_kafka.Producer
+.. autoclass:: confluent_kafka_smyte.Producer
    :members:
 
 *******
 Message
 *******
 
-.. autoclass:: confluent_kafka.Message
+.. autoclass:: confluent_kafka_smyte.Message
    :members:
 
 **************
 TopicPartition
 **************
 
-.. autoclass:: confluent_kafka.TopicPartition
+.. autoclass:: confluent_kafka_smyte.TopicPartition
    :members:
 
 **********
 KafkaError
 **********
 
-.. autoclass:: confluent_kafka.KafkaError
+.. autoclass:: confluent_kafka_smyte.KafkaError
    :members:
 
 **************
 KafkaException
 **************
 
-.. autoclass:: confluent_kafka.KafkaException
+.. autoclass:: confluent_kafka_smyte.KafkaException
    :members:
 
 
@@ -66,7 +66,7 @@ providing a dict of configuration properties to the instance constructor, e.g.::
           'group.id': 'mygroup', 'session.timeout.ms': 6000,
           'on_commit': my_commit_callback,
           'default.topic.config': {'auto.offset.reset': 'smallest'}}
-  consumer = confluent_kafka.Consumer(**conf)
+  consumer = confluent_kafka_smyte.Consumer(**conf)
 
 The supported configuration values are dictated by the underlying
 librdkafka C library. For the full range of configuration properties
@@ -85,7 +85,7 @@ The Python bindings also provide some additional configuration properties:
   that is called once for each produced message to indicate the final
   delivery result (success or failure).
   This property may also be set per-message by passing ``callback=callable``
-  (or ``on_delivery=callable``) to the confluent_kafka.Producer.produce() function.
+  (or ``on_delivery=callable``) to the confluent_kafka_smyte.Producer.produce() function.
 
 * ``on_commit(kafka.KafkaError, list(kafka.TopicPartition))`` (**Consumer**): Callback used to indicate success or failure
   of commit requests.

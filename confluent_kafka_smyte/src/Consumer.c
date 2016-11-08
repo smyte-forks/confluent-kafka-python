@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "confluent_kafka.h"
+#include "confluent_kafka_smyte.h"
 
 
 /****************************************************************************
@@ -479,7 +479,7 @@ static PyMethodDef Consumer_methods[] = {
 	  "  ``message`` and ``offsets`` are mutually exclusive, if neither is set "
 	  "the current partition assignment's offsets are used instead.\n"
 	  "\n"
-	  "  :param confluent_kafka.Message message: Commit message's offset+1.\n"
+	  "  :param confluent_kafka_smyte.Message message: Commit message's offset+1.\n"
 	  "  :param list(TopicPartition) offsets: List of topic+partitions+offsets to commit.\n"
 	  "  :param bool async: Asynchronous commit, return immediately.\n"
 	  "  :rtype: None\n"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from confluent_kafka import Consumer, TopicPartition, KafkaError, KafkaException
+from confluent_kafka_smyte import Consumer, TopicPartition, KafkaError, KafkaException
 
 
 def test_basic_api():

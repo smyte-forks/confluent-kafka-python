@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from confluent_kafka import TopicPartition
+from confluent_kafka_smyte import TopicPartition
 
 def test_sort():
     """ TopicPartition sorting (rich comparator) """

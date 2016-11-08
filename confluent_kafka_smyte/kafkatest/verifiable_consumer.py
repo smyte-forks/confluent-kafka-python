@@ -16,7 +16,7 @@
 #
 
 import argparse, sys
-from confluent_kafka import Consumer, KafkaError, KafkaException
+from confluent_kafka_smyte import Consumer, KafkaError, KafkaException
 from verifiable_client import VerifiableClient
 
 class VerifiableConsumer(VerifiableClient):
@@ -26,7 +26,7 @@ class VerifiableConsumer(VerifiableClient):
     """
     def __init__ (self, conf):
         """
-        \p conf is a config dict passed to confluent_kafka.Consumer()
+        \p conf is a config dict passed to confluent_kafka_smyte.Consumer()
         """
         super(VerifiableConsumer, self).__init__(conf)
         self.conf['on_commit'] = self.on_commit

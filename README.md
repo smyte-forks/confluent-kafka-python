@@ -18,7 +18,7 @@ Usage
 **Producer:**
 
 ```python
-from confluent_kafka import Producer
+from confluent_kafka_smyte import Producer
 
 p = Producer({'bootstrap.servers': 'mybroker,mybroker2'})
 for data in some_data_source:
@@ -30,7 +30,7 @@ p.flush()
 **High-level Consumer:**
 
 ```python
-from confluent_kafka import Consumer, KafkaError
+from confluent_kafka_smyte import Consumer, KafkaError
 
 c = Consumer({'bootstrap.servers': 'mybroker', 'group.id': 'mygroup',
               'default.topic.config': {'auto.offset.reset': 'smallest'}})

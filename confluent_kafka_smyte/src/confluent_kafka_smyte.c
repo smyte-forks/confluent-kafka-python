@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "confluent_kafka.h"
+#include "confluent_kafka_smyte.h"
 
 #include <stdarg.h>
 
@@ -1284,7 +1284,7 @@ static PyObject *libversion (PyObject *self, PyObject *args) {
 }
 
 static PyObject *version (PyObject *self, PyObject *args) {
-	return Py_BuildValue("si", "0.9.2", 0x00090100);
+	return Py_BuildValue("si", "0.9.3", 0x00090100);
 }
 
 static PyMethodDef cimpl_methods[] = {

@@ -16,7 +16,7 @@
 #
 
 import argparse, time
-from confluent_kafka import Producer, KafkaError, KafkaException
+from confluent_kafka_smyte import Producer, KafkaError, KafkaException
 from verifiable_client import VerifiableClient
 
 class VerifiableProducer(VerifiableClient):
@@ -26,7 +26,7 @@ class VerifiableProducer(VerifiableClient):
     """
     def __init__ (self, conf):
         """
-        \p conf is a config dict passed to confluent_kafka.Producer()
+        \p conf is a config dict passed to confluent_kafka_smyte.Producer()
         """
         super(VerifiableProducer, self).__init__(conf)
         self.conf['on_delivery'] = self.dr_cb

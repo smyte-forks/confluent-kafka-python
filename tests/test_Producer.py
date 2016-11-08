@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from confluent_kafka import Producer, KafkaError, KafkaException
+from confluent_kafka_smyte import Producer, KafkaError, KafkaException
 
 
 def test_basic_api():

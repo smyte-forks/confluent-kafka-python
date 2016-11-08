@@ -20,7 +20,7 @@
 # Reads lines from stdin and sends to Kafka.
 #
 
-from confluent_kafka import Producer
+from confluent_kafka_smyte import Producer
 import sys
 
 if __name__ == '__main__':

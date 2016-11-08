@@ -209,7 +209,7 @@ rd_kafka_topic_partition_list_t *py_to_c_parts (PyObject *plist);
  ****************************************************************************/
 
 /**
- * @brief confluent_kafka.Message object
+ * @brief confluent_kafka_smyte.Message object
  */
 typedef struct {
 	PyObject_HEAD
